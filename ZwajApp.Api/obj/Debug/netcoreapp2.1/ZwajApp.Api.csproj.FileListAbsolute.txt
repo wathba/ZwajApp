@@ -1,0 +1,14 @@
+C:\Zwaj\ZwajApp.Api\bin\Debug\netcoreapp2.1\ZwajApp.Api.deps.json
+C:\Zwaj\ZwajApp.Api\bin\Debug\netcoreapp2.1\ZwajApp.Api.runtimeconfig.json
+C:\Zwaj\ZwajApp.Api\bin\Debug\netcoreapp2.1\ZwajApp.Api.runtimeconfig.dev.json
+C:\Zwaj\ZwajApp.Api\bin\Debug\netcoreapp2.1\ZwajApp.Api.dll
+C:\Zwaj\ZwajApp.Api\bin\Debug\netcoreapp2.1\ZwajApp.Api.pdb
+C:\Zwaj\ZwajApp.Api\obj\Debug\netcoreapp2.1\ZwajApp.Api.csprojAssemblyReference.cache
+C:\Zwaj\ZwajApp.Api\obj\Debug\netcoreapp2.1\ZwajApp.Api.csproj.CoreCompileInputs.cache
+C:\Zwaj\ZwajApp.Api\obj\Debug\netcoreapp2.1\ZwajApp.Api.RazorAssemblyInfo.cache
+C:\Zwaj\ZwajApp.Api\obj\Debug\netcoreapp2.1\ZwajApp.Api.RazorAssemblyInfo.cs
+C:\Zwaj\ZwajApp.Api\obj\Debug\netcoreapp2.1\ZwajApp.Api.AssemblyInfoInputs.cache
+C:\Zwaj\ZwajApp.Api\obj\Debug\netcoreapp2.1\ZwajApp.Api.AssemblyInfo.cs
+C:\Zwaj\ZwajApp.Api\obj\Debug\netcoreapp2.1\ZwajApp.Api.RazorTargetAssemblyInfo.cache
+C:\Zwaj\ZwajApp.Api\obj\Debug\netcoreapp2.1\ZwajApp.Api.dll
+C:\Zwaj\ZwajApp.Api\obj\Debug\netcoreapp2.1\ZwajApp.Api.pdb
