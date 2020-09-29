@@ -24,8 +24,6 @@ namespace ZwajApp.Api.Data
    user.PasswordSalt = passwordSolt;
    await _context.Users.AddAsync(user);
    await _context.SaveChangesAsync();
-
-
    return user;
   }
   public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSolt)
@@ -34,8 +32,6 @@ namespace ZwajApp.Api.Data
    {
     passwordHash = hmac.Key;
     passwordSolt = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-
-
    }
   }
 
@@ -43,7 +39,6 @@ namespace ZwajApp.Api.Data
   {
    var user = await _context.Users.FirstOrDefaultAsync(x=>x.Name==username);
    if(user == null || !VerifyPasswordHash(password, user.PasswordSalt, user.PasswordHash)) {return null;}
-
    return user;
   }
 
@@ -57,8 +52,9 @@ namespace ZwajApp.Api.Data
      if (ComputeHash[i] !=passwordHash[i]) {
       return false;}
     }
+    return true;
    }
-   return true;
+   
   }
 
   public async Task<bool> UserExists(string username)
