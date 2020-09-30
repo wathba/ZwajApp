@@ -17,7 +17,7 @@ export class NavComponent implements OnInit {
   login(){
     this.authservice.login(this.model).subscribe(
       next=>{ console.log('you are secceed to login') },
-      error=>{console.log('your access denied')}
+      error=>{console.log(error)}
     )
   }
   loggedin() {
