@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+
 import { AuthService } from '../_services/Auth.service';
+
 
 @Component({
   selector: 'app-register',
@@ -17,7 +19,7 @@ export class RegisterComponent implements OnInit {
   register() {
     this.auth.register(this.model).subscribe(
       ()=>{ console.log('you have been register') },
-      error=>{ console.log(console.error) }
+      error=>{ console.log(error) }
     )
   }
   cancel() {

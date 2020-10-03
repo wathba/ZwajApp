@@ -13,3 +13,8 @@
     color: black !important;
     background: pink !important
 }
+
+.dropdown-toggle,
+.dropdown-item {
+    cursor: pointer;
+}
