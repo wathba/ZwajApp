@@ -11,25 +11,36 @@ import { AuthService } from './_services/Auth.service';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { ErrorInterceptorProvider } from './_services/error.interceptor';
+import { MemberListComponent } from './members-lists/Member-list.component';
+import { ListComponent } from './list/list.component';
+import { MessagesComponent } from './messages/messages.component';
+import { RouterModule } from '@angular/router';
+import { appRoutes } from './route';
+import { AuthGuard } from './guards/auth.guard';
 
 
 
 
 @NgModule({
-  declarations: [						
+  declarations: [									
     AppComponent,
     
       NavComponent,
       HomeComponent,
-      RegisterComponent
+      RegisterComponent,
+      MemberListComponent,
+      ListComponent,
+      MessagesComponent
    ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
-     BsDropdownModule.forRoot()
+    BsDropdownModule.forRoot(),
+    RouterModule.forRoot(appRoutes),
+     
   ],
-  providers: [AuthService,ErrorInterceptorProvider],
+  providers: [AuthService,ErrorInterceptorProvider,AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
