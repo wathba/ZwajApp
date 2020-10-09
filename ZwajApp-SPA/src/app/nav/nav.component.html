@@ -4,13 +4,13 @@ font-family:ToyorAljanah;font-size:2.25rem;font-weight:bolder" class="navbar-bra
 
     <ul *ngIf="loggedin()" style="letter-spacing:1px;font-weight:bold;font-family:'JF Flat';font-size:1.2rem " class="navbar-nav mr-auto ">
         <li class="nav-item " routerLinkActive="active">
-            <a class="nav-link " [routerLink]="['home']">Main</a>
+            <a class="nav-link " [routerLink]="['home']">Home</a>
         </li>
         <li class="nav-item " routerLinkActive="active">
-            <a class="nav-link " [routerLink]="['/members']">Search</a>
+            <a class="nav-link" [routerLink]="['/members']">Members</a>
         </li>
-        <li class="nav-item " routerLinkActive="active">
-            <a class="nav-link " [routerLink]="['/lists']">Comunicate</a>
+        <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" [routerLink]="['/lists']">Comunicate</a>
         </li>
         <li class="nav-item " routerLinkActive="active">
             <a class="nav-link " [routerLink]="['/messages']">Chating</a>

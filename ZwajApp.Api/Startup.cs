@@ -82,7 +82,7 @@ namespace ZwajApp.Api
    }
 
         //   trialData.TrialUsers();
-   //    app.UseHttpsRedirection();
+         app.UseHttpsRedirection();
 
           app.UseCors(x=>x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
           app.UseAuthentication();   
