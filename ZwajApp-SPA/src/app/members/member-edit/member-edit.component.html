@@ -1,0 +1,99 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4  mt-3">
+            <h4 class="text-center">My Profile</h4>
+        </div>
+        <div class="col-sm-8 mt-3 d-block ">
+            <div *ngIf="editForm.dirty" class="alert alert-info ">
+                <strong class=" ">!!Alert</strong>
+                <p class="">Please Save Your Edit Profile Data</p>
+            </div>
+        </div>
+        <div class=" col-sm-4 ">
+
+            <div class="card ">
+                <img src="{{user.photoUrl}} " alt="{{user.name}} " class="card-img-top img-thumbnail ">
+                <div class="card-body ">
+                    <strong>Name:</strong>
+                    <p>{{user.name}}</p>
+                    <strong>Age:</strong>
+                    <p>{{user.age}}</p>
+                    <strong>Country:</strong>
+                    <p>{{user.city}},{{user.country.toUpperCase()}}</p>
+                    <strong>Member Since:</strong>
+                    <p>{{user.created}}</p>
+
+                </div>
+                <div class="card-footer ">
+                    <div class=" ">
+                        <button [disabled]="!editForm.dirty" class="btn btn-success btn-block" form="userForm">Save Changes</button>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <div class=" col-sm-8 ">
+
+            <div class="tab-panel ">
+                <tabset class="member-tabset ">
+                    <tab heading="My Info ">
+                        <form #editForm="ngForm" id="userForm" (ngSubmit)="updateUser()">
+                            <div class="card ">
+                                <div class="card-header ">
+                                    <h4>Introduction</h4>
+                                </div>
+
+                                <div class="card-text mt-3 p-2 ">
+                                    <textarea name="introduction" [(ngModel)]="user.introduction" class="form-control border-white ">
+                                </textarea>
+                                </div>
+                            </div>
+                            <div class="card ">
+                                <div class="card-header ">
+                                    <h4>Looking For</h4>
+                                </div>
+                                <div class="card-text mt-3 p-2 ">
+                                    <textarea name="lookingFor" [(ngModel)]="user.lookingFor" class="form-control border-white ">
+                                </textarea>
+                                </div>
+                            </div>
+                            <div class="card ">
+                                <div class="card-header ">
+                                    <h4>Interests</h4>
+                                </div>
+                                <div class="card-text mt-3 p-2 ">
+                                    <textarea name="interests" [(ngModel)]="user.interests" class="form-control border-white ">
+                                </textarea>
+                                </div>
+                            </div>
+                            <div class="card ">
+                                <div class="card-header ">
+                                    <h4>Place Of Residenc</h4>
+                                </div>
+                                <div class="card-text mt-3 p-2 ">
+                                    <div class="form-inline ">
+                                        <label for="country ">Country:</label>
+                                        <input type="text " name="country" [(ngModel)]="user.country" class="form-control ">
+                                        <label for="city ">City:</label>
+                                        <input type="text " name="city " [(ngModel)]="user.city" class="form-control ">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </form>
+
+                    </tab>
+                    <tab heading="My Photos ">
+                        <p>Here You Can Edit Photo</p>
+                        <!-- <ngx-gallery [options]="galleryOptions " [images]="galleryImages "></ngx-gallery> -->
+                    </tab>
+                </tabset>
+
+            </div>
+
+        </div>
+
+    </div>

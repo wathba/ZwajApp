@@ -38,7 +38,7 @@ namespace ZwajApp.Api.Data
 
   }
 
-  public  async Task<bool> SaveAll()
+  public async Task<bool> SaveAll()
   {
    return await _context.SaveChangesAsync()>0;
   }

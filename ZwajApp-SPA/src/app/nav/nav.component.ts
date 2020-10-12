@@ -19,7 +19,7 @@ export class NavComponent implements OnInit {
   }
   login(){
     this.authservice.login(this.model).subscribe(
-      next=>{ console.log('you are secceed to login') },
+      next=>{ alert('you are secceed to login') },
       error => { console.log('your access denied') },
       ()=>{this.route.navigate(['/members'])}
     )

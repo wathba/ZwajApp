@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ZwajApp.Api.Migrations
 {
-    public partial class Usersc : Migration
+    public partial class userUdatCreation : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

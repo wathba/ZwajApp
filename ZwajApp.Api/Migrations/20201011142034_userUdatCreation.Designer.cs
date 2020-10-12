@@ -9,8 +9,8 @@ using ZwajApp.Api.Data;
 namespace ZwajApp.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201006012541_Usersc")]
-    partial class Usersc
+    [Migration("20201011142034_userUdatCreation")]
+    partial class userUdatCreation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

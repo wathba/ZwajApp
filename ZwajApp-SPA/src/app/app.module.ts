@@ -24,6 +24,9 @@ import { MemberDetailComponent } from './members/members-lists/member-detail/mem
 import { MemberDetailsResolver } from './_resolver/member-details-resolver';
 import { MemberListResolver } from './_resolver/member-list-resolver';
 import { NgxGalleryModule } from 'ngx-gallery';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
+import { MemberEditResolver } from './_resolver/member-edit-resolver';
+
 
 
 
@@ -43,6 +46,7 @@ export function tokenGetter() {
     MessagesComponent,
     MemberCardComponent,
     MemberDetailComponent,
+    MemberEditComponent,
     
    ],
   imports: [
@@ -62,7 +66,7 @@ export function tokenGetter() {
     }),
      
   ],
-  providers: [AuthService,ErrorInterceptorProvider,AuthGuard,UserService, MemberDetailsResolver,MemberListResolver],
+  providers: [AuthService,ErrorInterceptorProvider,AuthGuard ,UserService, MemberDetailsResolver,MemberListResolver,MemberEditResolver],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

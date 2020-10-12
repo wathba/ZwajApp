@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
+import { AuthService } from './Auth.service';
 
 
 @Injectable({
@@ -11,11 +12,15 @@ import { User } from '../_models/user';
 export class UserService {
   baseUrl = environment.apiUrl+'user/';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private authserive: AuthService) { }
      getUsers():Observable<User[]>{
        return this.http.get<User[]>(this.baseUrl);
   };
   getUser(id): Observable<User>{
    return this.http.get<User>(this.baseUrl+id)
   };
+  updateForUser(id: number, user: User) {
+    return this.http.put(this.baseUrl+id,user);
+  }
+
 }
