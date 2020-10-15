@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ZwajApp.Api.Data;
 
 namespace ZwajApp.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201012023002_cloudinaryclass")]
+    partial class cloudinaryclass
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,8 +28,6 @@ namespace ZwajApp.Api.Migrations
                     b.Property<string>("Description");
 
                     b.Property<bool>("IsMain");
-
-                    b.Property<string>("PublicId");
 
                     b.Property<string>("Url");
 

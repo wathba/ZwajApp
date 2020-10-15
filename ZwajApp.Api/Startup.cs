@@ -35,7 +35,8 @@ namespace ZwajApp.Api
         public void ConfigureServices(IServiceCollection services)
         {   
             services.AddDbContext<DataContext>(x=>x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+   services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
+   services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
             .AddJsonOptions(option=>{
              option.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
@@ -82,7 +83,7 @@ namespace ZwajApp.Api
     //app.UseHsts();
    }
 
-          trialData.TrialUsers();
+        //   trialData.TrialUsers();
          app.UseHttpsRedirection();
 
           app.UseCors(x=>x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
