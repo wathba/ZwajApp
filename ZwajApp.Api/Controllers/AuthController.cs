@@ -30,17 +30,15 @@ namespace ZwajApp.Api.Controllers
   [HttpPost("register")]
   public async Task<IActionResult> Register(UserForRegisterDTO userForRegisterDTO)
   {
-   userForRegisterDTO.UserName = userForRegisterDTO.UserName.ToLower();
-   if (await _repos.UserExists(userForRegisterDTO.UserName))
+   userForRegisterDTO.Name = userForRegisterDTO.Name.ToLower();
+   if (await _repos.UserExists(userForRegisterDTO.Name))
     return BadRequest("please choose other name");
-   var userToCreate = new User
-   {
-    Name = userForRegisterDTO.UserName
+   var userToCreate = _mapper.Map<User>(userForRegisterDTO);
 
-   };
    var userCreate = await _repos.Register(userToCreate, userForRegisterDTO.Password);
+   var userToReturn = _mapper.Map<UserDetailsDto>(userCreate);
 
-   return StatusCode(201);
+   return CreatedAtRoute("GetUser",new {Controller="user",Id=userCreate.Id},userToReturn);
 
   }
   [HttpPost("login")]

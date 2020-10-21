@@ -13,8 +13,8 @@ export class AuthService {
   baseUrl = 'http://localhost:5000/api/auth/';
   currentUser: User;
   constructor(private http: HttpClient) { }
-  login(model:any) {
-    return this.http.post(this.baseUrl +'login', model).pipe(
+  login(modle:any) {
+    return this.http.post(this.baseUrl +'login', modle).pipe(
       map((response:any)=>{
         const user = response;
         if (user) {
@@ -26,8 +26,8 @@ export class AuthService {
         }
       }))
   }
-  register(modle: any) {
-    return this.http.post(this.baseUrl + "register", modle);
+  register(user:User) {
+    return this.http.post(this.baseUrl + 'register', user);
   }
   loggedIn() {
     try{

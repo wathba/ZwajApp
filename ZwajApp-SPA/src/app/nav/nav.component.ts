@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { User } from '../_models/user';
 import { AuthService } from '../_services/Auth.service';
 
 
@@ -10,7 +11,7 @@ import { AuthService } from '../_services/Auth.service';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
-  model: any = {};
+ model:any = {};
   
   constructor(private authservice:AuthService, private route:Router) { }
 

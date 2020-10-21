@@ -29,7 +29,7 @@ namespace ZwajApp.Api.Controllers
    var usersRetunDto = _mapper.Map<IEnumerable<UserForListDto>>(users);
    return Ok(usersRetunDto);
   }
-  [HttpGet("{id}")]
+  [HttpGet("{id}",Name="GetUser")]
   public async Task<IActionResult> GetUser(int id)
   {
    var user = await _repo.GetUser(id);

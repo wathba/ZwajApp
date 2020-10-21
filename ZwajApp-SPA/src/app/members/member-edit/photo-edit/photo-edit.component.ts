@@ -69,6 +69,7 @@ export class PhotoEditComponent implements OnInit {
         this.currentMain.isMain=false;
         photo.isMain = true;
         this.user.photoUrl = photo.url;
+        
       },
      ()=> console.log('photo is not main')
     )
