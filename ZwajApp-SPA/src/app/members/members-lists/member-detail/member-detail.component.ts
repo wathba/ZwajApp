@@ -12,13 +12,17 @@ import { UserService } from 'src/app/_services/user.service';
 export class MemberDetailComponent implements OnInit {
   user: User
     galleryOptions: NgxGalleryOptions[];
-    galleryImages: NgxGalleryImage[];
+  galleryImages: NgxGalleryImage[];
+  showIntro:Boolean=true
+  showLook:Boolean=true
   constructor(private userserivce:UserService, private route:ActivatedRoute ) { }
 
   ngOnInit() {
     // this.loadUser();
     this.route.data.subscribe(data => {
       this.user = data['user'];
+      this.showIntro = true;
+      this.showLook = true;
     });
 
     this.galleryOptions = [{

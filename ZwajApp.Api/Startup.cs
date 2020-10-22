@@ -45,6 +45,7 @@ namespace ZwajApp.Api
    services.AddTransient<TrialData>();
             services.AddScoped<IAuthRepository, AuthRepository>();
    services.AddScoped<IZwajRepository, ZwajRepository>();
+   services.AddScoped<LogUserActivity>();
    services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
    .AddJwtBearer(Options =>
    {Options.TokenValidationParameters = new TokenValidationParameters

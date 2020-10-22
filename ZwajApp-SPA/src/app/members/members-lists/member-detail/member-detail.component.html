@@ -30,18 +30,22 @@
                 <tabset class="member-tabset">
                     <tab heading="I am {{user.name}}">
                         <h4>Introduction</h4>
-                        <p>{{user.introduction}}</p>
+                        <p #Intro>{{user.introduction | slice:0:100}}</p>
+                        <button [hidden]='!showIntro' class="btn btn-primary" (click)="Intro.innerText=user.introduction;showIntro=false">Read More....</button>
+                        <button [hidden]='showIntro' class="btn btn-danger" (click)="Intro.innerText=user.introduction.slice(0,200);showIntro=true">Read less.</button>
                         <h4>Looking For</h4>
-                        <p>{{user.lookingFor}}</p>
+                        <p #look>{{user.lookingFor | slice:0:200}}</p>
+                        <button [hidden]='!showLook' class="btn btn-primary" (click)="look.innerText=user.lookingFor;showLook=false">Read More....</button>
+                        <button [hidden]='showLook' class="btn btn-danger" (click)="look.innerText=user.lookingFor.slice(0,200);showLook=true">Read less.</button>
                     </tab>
-                    <tab heading="Interests">
+                    <tab heading="Interests ">
                         <h4>Interests</h4>
                         <p>{{user.interests}}</p>
 
                     </tab>
-                    <tab heading="Photos">
+                    <tab heading="Photos ">
                         <h4>Photos</h4>
-                        <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
+                        <ngx-gallery [options]="galleryOptions " [images]="galleryImages "></ngx-gallery>
 
                     </tab>
                 </tabset>

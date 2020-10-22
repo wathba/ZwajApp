@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using ZwajApp.Api.Data;
 using ZwajApp.Api.DTOS;
 using System;
+using ZwajApp.Api.Helper;
 
 namespace ZwajApp.Api.Controllers
 {
+   [ServiceFilter(typeof(LogUserActivity))]
  [Authorize]
  [Route("api/[controller]")]
  [ApiController]
