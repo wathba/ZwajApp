@@ -12,7 +12,7 @@ namespace ZwajApp.Api.Models
        public DateTime DateOfBirth { get; set; }
        public string Gender { get; set; }
        public string KownAs{ get; set; }
-       public string Created { get; set; }
+       public DateTime Created { get; set; }
        public DateTime LastActive { get; set; }
        public string Introduction { get; set; }
        public string LookingFor { get; set; }

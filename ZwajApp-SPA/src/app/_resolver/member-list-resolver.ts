@@ -7,10 +7,12 @@ import { UserService } from "../_services/user.service";
 
 @Injectable()
 export class MemberListResolver implements Resolve<User[]>{
+ pageNumber = 1
+ pageSize=6
  
  constructor(private userService:UserService, private router: Router) { }
  resolve(route: ActivatedRouteSnapshot):Observable<User[]>{
-  return this.userService.getUsers().pipe(
+  return this.userService.getUsers(this.pageNumber,this.pageSize).pipe(
    catchError(error=>{
     console.log('there is an error ');
     this.router.navigate(['']);

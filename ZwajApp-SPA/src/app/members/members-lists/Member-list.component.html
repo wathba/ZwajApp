@@ -1,6 +1,36 @@
-<div class="container">
-    <div class="row">
-        <div *ngFor="let user of users" class="col-lg-2 col-md-3 col-sm-6">
+<div class="text-center mt-3">
+    <h4 style="font-family: serif;">Search {{pagination.totalItems}} Result</h4>
+</div>
+<div class="container mt-3">
+    <form form="ngForm" (ngSubmit)="loadUsers()" class="form-inline" novalidate>
+        <div class="form-group">
+            <label for="minAge" class="ml-2 mr-1">Minimum Age:</label>
+            <input type="number" [(ngModel)]="userParams.minAge" class="form-control" name="minAge" id="minAge" style="width:70px;">
+        </div>
+        <div class="form-group">
+            <label for="maxAge" class="ml-2 mr-1">Maximum Age:</label>
+            <input type="number " [(ngModel)]="userParams.maxAge" class="form-control" name="maxAge" id="maxAge" style="width:70px;">
+        </div>
+        <div class="form-group">
+            <label for="gender" class="ml-2 mr-1">Gender:</label>
+            <select [(ngModel)]="userParams.gender" name="gender" id="gender" style="width:130px" class="form-control">
+                <option [value]="gender.value" *ngFor="let gender of genderList">
+                    {{gender.display}}
+                </option>
+             </select>
+        </div>
+        <button type="submit" class="btn btn-dark btn-small ml-2 mt-1">Search</button>
+        <button type="button" class="btn btn-dark btn-small ml-2 mt-1" (click)="resetFilter()">Default</button>
+        <div class="col">
+            <div class="btn-group-vertical float-left">
+                <button type="button" [(ngModel)]="userParams.orderBy" btnRadio="created" name="orderBy" class="btn btn-up mb-1" (click)="loadUsers();">Recent Members </button>
+                <button type="button" [(ngModel)]="userParams.orderBy" btnRadio="lastActive" name="orderBy" class="btn btn-down" (click)="loadUsers();">Last Active</button>
+            </div>
+        </div>
+
+    </form>
+    <div class="row ">
+        <div *ngFor="let user of users " class="col-lg-2 col-md-3 col-sm-6 ">
 
             <app-member-card [user]='user'></app-member-card>
 
@@ -12,3 +42,13 @@
     </div>
 
 </div>
+<div class="d-flex justify-content-center ">
+    <pagination [boundaryLinks]="true " [totalItems]="pagination.totalItems " [itemsPerPage]="pagination.itemPerPage " [(ngModel)]="pagination.currentPage " previousText="Pervious " nextText="Next " firstText="First " lastText="Last
+                " (pageChanged)="pageChanged($event) ">
+
+    </pagination>
+
+</div> <br>
+<br>
+<pre class="card card-block card-header mb-3 "> Page changed to: {{pagination.currentPage}}
+    </pre>

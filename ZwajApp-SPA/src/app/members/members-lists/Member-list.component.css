@@ -1,0 +1,53 @@
+:host /deep/.pagination {
+    font-size: 25px;
+    font-family: serif;
+}
+
+:host /deep/.page-Item .page-link,
+input {
+    border-radius: 5px 5px 5px 5px/25px 25px 25px 5px;
+}
+
+.d-flex {
+    margin-top: 25px;
+}
+
+:host /deep/ label {
+    font-size: 20px;
+    font-family: serif;
+}
+
+.btn-up {
+    border-radius: 16px 16px 0 0/13px 17px 16px 16px !important;
+    border: none !important;
+    background-color: grey;
+    color: white;
+}
+
+.btn-down {
+    border-radius: 0px 0px 16px 16px/16px 16px 16px 16px !important;
+    border: none !important;
+    background-color: grey;
+    font: bold;
+    color: white;
+}
+
+button:active,
+button:focus {
+    background: red !important;
+    border: none !important;
+    text-decoration: none;
+    color: white !important;
+    outline: none !important;
+    outline: 0 !important;
+}
+
+button:focus {
+    outline: 0 !important;
+    outline: none !important;
+    box-shadow: none;
+}
+
+button:hover {
+    background-color: hotpink;
+}
