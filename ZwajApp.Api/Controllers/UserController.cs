@@ -27,7 +27,7 @@ namespace ZwajApp.Api.Controllers
   [HttpGet]
   public async Task<IActionResult> GetUsers()
   {
-   var users = await _repo.GetUsers();
+   var users = await _repo.GetUsers(userParams);
    var usersRetunDto = _mapper.Map<IEnumerable<UserForListDto>>(users);
    return Ok(usersRetunDto);
   }
