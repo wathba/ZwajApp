@@ -28,6 +28,7 @@ import { NgxGalleryModule } from 'ngx-gallery';
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import { MemberEditResolver } from './_resolver/member-edit-resolver';
 import { PhotoEditComponent } from './members/member-edit/photo-edit/photo-edit.component';
+import { ListResolver } from './_resolver/lists.resolver';
 
 
 
@@ -74,7 +75,7 @@ export function tokenGetter() {
     }),
      
   ],
-  providers: [AuthService,ErrorInterceptorProvider,AuthGuard ,UserService, MemberDetailsResolver,MemberListResolver,MemberEditResolver],
+  providers: [AuthService,ErrorInterceptorProvider,AuthGuard ,UserService, MemberDetailsResolver,MemberListResolver,MemberEditResolver,ListResolver],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

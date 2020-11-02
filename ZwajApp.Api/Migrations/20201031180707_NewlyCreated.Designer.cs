@@ -9,14 +9,27 @@ using ZwajApp.Api.Data;
 namespace ZwajApp.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201011142034_userUdatCreation")]
-    partial class userUdatCreation
+    [Migration("20201031180707_NewlyCreated")]
+    partial class NewlyCreated
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.14-servicing-32113");
+
+            modelBuilder.Entity("ZwajApp.Api.Models.Like", b =>
+                {
+                    b.Property<int>("LikerId");
+
+                    b.Property<int>("LikeeId");
+
+                    b.HasKey("LikerId", "LikeeId");
+
+                    b.HasIndex("LikeeId");
+
+                    b.ToTable("Likes");
+                });
 
             modelBuilder.Entity("ZwajApp.Api.Models.Photo", b =>
                 {
@@ -28,6 +41,8 @@ namespace ZwajApp.Api.Migrations
                     b.Property<string>("Description");
 
                     b.Property<bool>("IsMain");
+
+                    b.Property<string>("PublicId");
 
                     b.Property<string>("Url");
 
@@ -49,7 +64,7 @@ namespace ZwajApp.Api.Migrations
 
                     b.Property<string>("Country");
 
-                    b.Property<string>("Created");
+                    b.Property<DateTime>("Created");
 
                     b.Property<DateTime>("DateOfBirth");
 
@@ -86,6 +101,19 @@ namespace ZwajApp.Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Values");
+                });
+
+            modelBuilder.Entity("ZwajApp.Api.Models.Like", b =>
+                {
+                    b.HasOne("ZwajApp.Api.Models.User", "Likee")
+                        .WithMany("Liker")
+                        .HasForeignKey("LikeeId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ZwajApp.Api.Models.User", "Liker")
+                        .WithMany("Likee")
+                        .HasForeignKey("LikerId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("ZwajApp.Api.Models.Photo", b =>

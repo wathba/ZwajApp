@@ -7,6 +7,7 @@ import { MemberEditComponent } from './members/member-edit/member-edit.component
 import { MemberDetailComponent } from './members/members-lists/member-detail/member-detail.component';
 import { MemberListComponent } from './members/members-lists/Member-list.component';
 import { MessagesComponent } from './messages/messages.component';
+import { ListResolver } from './_resolver/lists.resolver';
 import { MemberDetailsResolver } from './_resolver/member-details-resolver';
 import { MemberEditResolver } from './_resolver/member-edit-resolver';
 import { MemberListResolver } from './_resolver/member-list-resolver';
@@ -30,7 +31,9 @@ export const appRoutes:Routes=[
   }
   
  },
- { path: 'lists', component:ListComponent},
+ { path: 'lists', component:ListComponent,resolve:{
+  users:ListResolver
+  }},
  {path:'messages',component:MessagesComponent},
  {path:'**',redirectTo:'home',pathMatch:'full'}
 ]
