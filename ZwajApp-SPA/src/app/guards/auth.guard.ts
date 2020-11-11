@@ -17,6 +17,7 @@ export class AuthGuard implements CanActivate {
   canActivate()
     : boolean {
     if (this.auth.loggedIn()) {
+      this.auth.hubconnection.stop();
       return true;
     
     }

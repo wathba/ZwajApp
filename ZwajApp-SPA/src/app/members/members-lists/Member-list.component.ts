@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { Pagination, PaginationResult } from 'src/app/_models/Pagination';
+import { AuthService } from 'src/app/_services/Auth.service';
 import { User } from '../../_models/user';
 import { UserService } from '../../_services/user.service';
 
@@ -15,10 +16,11 @@ export class MemberListComponent implements OnInit {
   genderList = [{ value: 'male', display: 'Mens' }, { value: 'female', display: 'Womens' }];
   userParams: any = {};
   pagination:Pagination
-  constructor(private userService:UserService,private route:ActivatedRoute) { }
+  constructor(private userService:UserService,private auth:AuthService,private route:ActivatedRoute) { }
 
   ngOnInit() {
   //  this.usersLoad();
+    this.auth.hubconnection.stop();
      this.route.data.subscribe(data=>{
        this.users = data['users'].result
        this.pagination = data['users'].pagination

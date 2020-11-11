@@ -19,7 +19,7 @@
                 <div class="card-footer">
                     <div class="btn-group d-flex">
                         <button class="btn btn-primary w-100"> Like</button>
-                        <button class="btn btn-success w-100">Message</button>
+                        <button type="button" class="btn btn-success w-100" (click)="selectedTab(3);">Message</button>
                     </div>
 
                 </div>
@@ -29,7 +29,7 @@
         </div>
         <div class="col-sm-8 mt-3">
             <div class="tab-panel">
-                <tabset class="member-tabset">
+                <tabset class="member-tabset" #memberTabs>
                     <tab heading="I am {{user.name}}">
                         <h4>Introduction</h4>
                         <p #Intro>{{user.introduction | slice:0:100}}</p>
@@ -40,14 +40,19 @@
                         <button [hidden]='!showLook' class="btn btn-primary" (click)="look.innerText=user.lookingFor;showLook=false">Read More....</button>
                         <button [hidden]='showLook' class="btn btn-danger" (click)="look.innerText=user.lookingFor.slice(0,200);showLook=true">Read less.</button>
                     </tab>
-                    <tab heading="Interests ">
+                    <tab heading="Interests">
                         <h4>Interests</h4>
                         <p>{{user.interests}}</p>
 
                     </tab>
-                    <tab heading="Photos ">
+                    <tab heading="Photos">
                         <h4>Photos</h4>
                         <ngx-gallery [options]="galleryOptions " [images]="galleryImages "></ngx-gallery>
+
+                    </tab>
+                    <tab heading="messages" (deselect)="deSelect();">
+                        <h4>Messages</h4>
+                        <app-member-messages [recipientId]="user.id"></app-member-messages>
 
                     </tab>
                 </tabset>

@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { BehaviorSubject } from 'rxjs';
 import { map } from "rxjs/Operators";
 import { User } from '../_models/user';
 
@@ -12,6 +14,9 @@ export class AuthService {
   decodedToken: any;
   baseUrl = 'http://localhost:5000/api/auth/';
   currentUser: User;
+  unreadCount = new BehaviorSubject<string>('');
+  lastUnreadCount = this.unreadCount.asObservable();
+   hubconnection:HubConnection = new HubConnectionBuilder().withUrl('http:localhost:5000/chat').build();
   constructor(private http: HttpClient) { }
   login(modle:any) {
     return this.http.post(this.baseUrl +'login', modle).pipe(

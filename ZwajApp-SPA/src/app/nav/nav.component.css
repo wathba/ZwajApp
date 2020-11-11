@@ -25,3 +25,19 @@ img {
     display: inline;
     border-radius: 50px;
 }
+
+.notification {
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+    border-radius: 2px;
+}
+
+.notification .badge {
+    position: absolute;
+    top: 2px;
+    padding: 2px 2px;
+    color: #333333;
+    font-size: 16px;
+    border-radius: 50%;
+}

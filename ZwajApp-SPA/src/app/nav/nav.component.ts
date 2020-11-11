@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../_models/user';
 import { AuthService } from '../_services/Auth.service';
+import { UserService } from '../_services/user.service';
 
 
 
@@ -12,15 +13,27 @@ import { AuthService } from '../_services/Auth.service';
 })
 export class NavComponent implements OnInit {
  model:any = {};
-  
-  constructor(private authservice:AuthService, private route:Router) { }
+  count:string
+  constructor(private authservice:AuthService,private userService:UserService, private route:Router) { }
 
   ngOnInit() {
+    this.userService.getUnreadcount(this.authservice.decodedToken.nameid).subscribe(
+      res => {
+        this.authservice.unreadCount.next(res.toString())
+        this.authservice.lastUnreadCount.subscribe(
+          res=>this.count=res)}
+    )
   
   }
   login(){
     this.authservice.login(this.model).subscribe(
-      next=>{ alert('you are secceed to login') },
+      next => {
+        alert('you are secceed to login'); this.userService.getUnreadcount(this.authservice.decodedToken.nameid).subscribe(
+          res => {
+            this.authservice.unreadCount.next(res.toString())
+            this.authservice.lastUnreadCount.subscribe(
+              res => this.count = res)
+          }); },
       error => { console.log('your access denied') },
       ()=>{this.route.navigate(['/members'])}
     )

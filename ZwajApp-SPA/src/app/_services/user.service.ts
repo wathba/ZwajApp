@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/Operators';
 import { environment } from 'src/environments/environment';
+import { Message } from '../_models/message';
 import { PaginationResult } from '../_models/Pagination';
 import { User } from '../_models/user';
 import { AuthService } from './Auth.service';
@@ -46,6 +47,26 @@ export class UserService {
          })
        )
   };
+  getMessages(id: number, page?, itemPerPage?, messageType?) {
+    const paginationResult: PaginationResult<Message[]> = new PaginationResult<Message[]>();
+    let params = new HttpParams()
+    params.append('messageType', messageType);
+    if (page != null && itemPerPage != null) {
+      params.append('pageNumber', page)
+      params.append('pageSize',itemPerPage)
+    }
+    return this.http.get<Message[]>(this.baseUrl + id + '/messages', { observe: 'response', params })
+      .pipe(map(response => {
+        paginationResult.result = response.body
+        if (response.headers.get('pagination') !== null) {
+          paginationResult.pagination=JSON.parse(response.headers.get('pagination'))
+        }
+        return paginationResult;
+    }))
+  }
+  getConversation(id:number,recipieniId:number) {
+    return this.http.get<Message[]>(this.baseUrl+id+'/messages/chat/'+recipieniId)
+  }
   getUser(id): Observable<User>{
    return this.http.get<User>(this.baseUrl+id)
   };
@@ -60,5 +81,17 @@ export class UserService {
   }
   sendLike(id: number, recipient: number) {
     return this.http.post(this.baseUrl+id+'/like/'+recipient,{});
+  }
+  sendMessage(id: number, message: Message) {
+    return this.http.post(this.baseUrl+id+'/messages',message)
+  }
+  getUnreadcount(userId) {
+    return this.http.get(this.baseUrl+userId+'/messages/count')
+  }
+  messageMarkAsRead(userId: number, messageId: number) {
+    return this.http.post(this.baseUrl + userId + '/messages/read/' + messageId, {}).subscribe();
+  }
+  deleteMessage(id: number, userId: number) {
+    return this.http.post(this.baseUrl+userId+'/messages/'+id,{})
   }
 }

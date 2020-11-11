@@ -67,10 +67,10 @@ var userLikees = await GetUserLikes(userParams.UserId, userParams.Likers);
        switch (userParams.OrderBy)
        {
            case "created":
-     users =users.OrderByDescending(u => u.Created);
+       users = users.OrderByDescending(u => u.Created);
       break;
      default:
-      users = users.OrderByDescending(u => u.LastActive);
+        users = users.OrderByDescending(u => u.LastActive);
       break;
 
     }
@@ -97,6 +97,44 @@ var userLikees = await GetUserLikes(userParams.UserId, userParams.Likers);
   public  async Task<Like> GetLike(int userId, int recipientId)
   {
    return await _context.Likes.FirstOrDefaultAsync(l => l.LikerId == userId && l.LikeeId == recipientId);
+  }
+
+  public async Task<Message> GetMessage(int id)
+  {
+   return await _context.Messages.FirstOrDefaultAsync(m => m.Id == id);
+  }
+
+  public async Task<PageList<Message>> GetMessagesForUser(MessagesParams messagesParams)
+  {
+   var messages = _context.Messages.Include(u => u.Sender).ThenInclude(u => u.Photos).Include(u => u.Recipient).ThenInclude(u => u.Photos).AsQueryable();
+   switch (messagesParams.MessageType)
+   {
+       case "Inbox":
+     messages = messages.Where(m => m.RecipientId == messagesParams.UserId&&m.RecipientDelelted==false);
+     break;
+     case "Outbox":
+     messages = messages.Where(m => m.SenderId == messagesParams.UserId&&m.SenderDelelted==false);
+     break;
+    default:
+     messages = messages.Where(m => m.RecipientId==messagesParams.UserId&&m.RecipientDelelted==false && m.IsRead==false);
+     break;
+   }
+   messages = messages.OrderByDescending(m => m.MessageSent);
+   return await PageList<Message>.CreateAsync(messages,messagesParams.PageNumber,messagesParams.PageSize);
+  }
+
+  public async Task<IEnumerable<Message>> GetConversation(int userId, int recipientId)
+  {
+   var messages =await _context.Messages.Include(m => m.Sender).ThenInclude(u => u.Photos).Include(m => m.Recipient).ThenInclude(u => u.Photos).Where(m => m.RecipientId == userId
+   && m.SenderDelelted==false  && m.SenderId == recipientId || m.RecipientId == recipientId && m.RecipientDelelted==false && m.SenderId == userId).OrderByDescending(m => m.MessageSent).ToListAsync();
+   return messages;
+  }
+
+  public async Task<int> GetUnreadMessagesForUser(int userId)
+  {
+   var messages = await _context.Messages.Where(m => m.IsRead == false && m.RecipientId == userId).ToListAsync();
+   var count = messages.Count();
+   return count;
   }
  }
 }

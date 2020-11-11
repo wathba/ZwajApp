@@ -25,6 +25,7 @@ export class MemberEditComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.user=data['user']
     })
+    this.authservice.hubconnection.stop();
   }
   updateUser() {
     

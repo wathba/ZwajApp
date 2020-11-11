@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { BsDropdownModule, ButtonsModule, PaginationModule, TabsModule } from 'ngx-bootstrap';
+import { BsDropdownModule, ButtonsModule, PaginationModule, TabsetComponent, TabsModule } from 'ngx-bootstrap';
 import { JwtModule } from '@auth0/angular-jwt';
 import { FileUploadModule } from 'ng2-file-upload';
 
@@ -29,6 +29,8 @@ import { MemberEditComponent } from './members/member-edit/member-edit.component
 import { MemberEditResolver } from './_resolver/member-edit-resolver';
 import { PhotoEditComponent } from './members/member-edit/photo-edit/photo-edit.component';
 import { ListResolver } from './_resolver/lists.resolver';
+import { MessageResolver } from './_resolver/message-resolver';
+import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
 
 
 
@@ -52,6 +54,8 @@ export function tokenGetter() {
     MemberDetailComponent,
     MemberEditComponent,
     PhotoEditComponent,
+    MemberMessagesComponent,
+     
     
    ],
   imports: [
@@ -75,7 +79,7 @@ export function tokenGetter() {
     }),
      
   ],
-  providers: [AuthService,ErrorInterceptorProvider,AuthGuard ,UserService, MemberDetailsResolver,MemberListResolver,MemberEditResolver,ListResolver],
+  providers: [AuthService,ErrorInterceptorProvider,AuthGuard ,UserService, MemberDetailsResolver,MemberListResolver,MemberEditResolver,ListResolver,MessageResolver],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

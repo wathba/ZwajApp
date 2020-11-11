@@ -13,6 +13,7 @@ export class MemberCardComponent implements OnInit {
   @Input() user:User
   constructor(private userService:UserService,private authservice:AuthService) { }
   ngOnInit() {
+    this.authservice.hubconnection.stop();
   }
   sendLike(id:number) {
     this.userService.sendLike(this.authservice.decodedToken.nameid,id).subscribe(

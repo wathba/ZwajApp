@@ -11,6 +11,7 @@ import { ListResolver } from './_resolver/lists.resolver';
 import { MemberDetailsResolver } from './_resolver/member-details-resolver';
 import { MemberEditResolver } from './_resolver/member-edit-resolver';
 import { MemberListResolver } from './_resolver/member-list-resolver';
+import { MessageResolver } from './_resolver/message-resolver';
 export const appRoutes:Routes=[
  {path:'',component:HomeComponent},
  { path: 'home', component: HomeComponent },
@@ -34,6 +35,6 @@ export const appRoutes:Routes=[
  { path: 'lists', component:ListComponent,resolve:{
   users:ListResolver
   }},
- {path:'messages',component:MessagesComponent},
+ {path:'messages',component:MessagesComponent,resolve:{messages:MessageResolver}},
  {path:'**',redirectTo:'home',pathMatch:'full'}
 ]
