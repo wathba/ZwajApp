@@ -16,6 +16,7 @@ export class AuthService {
   currentUser: User;
   unreadCount = new BehaviorSubject<string>('');
   lastUnreadCount = this.unreadCount.asObservable();
+  paid: boolean = false;
    hubconnection:HubConnection = new HubConnectionBuilder().withUrl('http:localhost:5000/chat').build();
   constructor(private http: HttpClient) { }
   login(modle:any) {

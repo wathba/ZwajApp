@@ -31,6 +31,9 @@ import { PhotoEditComponent } from './members/member-edit/photo-edit/photo-edit.
 import { ListResolver } from './_resolver/lists.resolver';
 import { MessageResolver } from './_resolver/message-resolver';
 import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
+import { PaymentsComponent } from './payments/payments.component';
+import { MessagesGuard } from './guards/messages.guard';
+import { ChargeGuard } from './guards/charge.guard';
 
 
 
@@ -55,6 +58,7 @@ export function tokenGetter() {
     MemberEditComponent,
     PhotoEditComponent,
     MemberMessagesComponent,
+    PaymentsComponent,
      
     
    ],
@@ -79,7 +83,7 @@ export function tokenGetter() {
     }),
      
   ],
-  providers: [AuthService,ErrorInterceptorProvider,AuthGuard ,UserService, MemberDetailsResolver,MemberListResolver,MemberEditResolver,ListResolver,MessageResolver],
+  providers: [AuthService,ErrorInterceptorProvider,AuthGuard ,MessagesGuard,ChargeGuard,UserService, MemberDetailsResolver,MemberListResolver,MemberEditResolver,ListResolver,MessageResolver],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

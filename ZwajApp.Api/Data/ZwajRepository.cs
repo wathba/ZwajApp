@@ -136,5 +136,11 @@ var userLikees = await GetUserLikes(userParams.UserId, userParams.Likers);
    var count = messages.Count();
    return count;
   }
+
+  public  async Task<Payment> GetPaymentForUser(int userId)
+  {
+   var payment = await _context.Payments.FirstOrDefaultAsync(p => p.UserId ==userId);
+   return payment;
+  }
  }
 }

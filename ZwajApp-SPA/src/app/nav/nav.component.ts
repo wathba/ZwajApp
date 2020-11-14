@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from '../_models/user';
 import { AuthService } from '../_services/Auth.service';
 import { UserService } from '../_services/user.service';
 
@@ -17,12 +16,18 @@ export class NavComponent implements OnInit {
   constructor(private authservice:AuthService,private userService:UserService, private route:Router) { }
 
   ngOnInit() {
-    this.userService.getUnreadcount(this.authservice.decodedToken.nameid).subscribe(
-      res => {
-        this.authservice.unreadCount.next(res.toString())
-        this.authservice.lastUnreadCount.subscribe(
-          res=>this.count=res)}
-    )
+    if (this.loggedin) {
+      this.userService.getUnreadcount(this.authservice.decodedToken.nameid).subscribe(
+        res => {
+          this.authservice.unreadCount.next(res.toString())
+          this.authservice.lastUnreadCount.subscribe(
+            res => this.count = res)
+        }
+      );
+       this.getPaymentForUser();
+    };
+   
+ 
   
   }
   login(){
@@ -33,10 +38,12 @@ export class NavComponent implements OnInit {
             this.authservice.unreadCount.next(res.toString())
             this.authservice.lastUnreadCount.subscribe(
               res => this.count = res)
+            
           }); },
       error => { console.log('your access denied') },
       ()=>{this.route.navigate(['/members'])}
     )
+    this.getPaymentForUser();
   }
   loggedin() {
     
@@ -46,9 +53,21 @@ export class NavComponent implements OnInit {
   logout() {
     localStorage.removeItem('token');
     this.authservice.decodedToken = null;
+    this.authservice.paid = false;
     localStorage.removeItem('user');
     this.authservice.currentUser = null;
     console.log('You are signed out')
     this.route.navigate(['/home'])
+  }
+  getPaymentForUser() {
+    this.userService.getPaymentForUser(this.authservice.currentUser.id).subscribe(
+      res => {
+        if (res == null) 
+          this.authservice.paid=true
+        else 
+          this.authservice.paid=false
+        
+      }
+    )
   }
 }

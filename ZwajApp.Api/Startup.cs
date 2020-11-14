@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Stripe;
 using ZwajApp.Api.Data;
 using ZwajApp.Api.Helper;
 using ZwajApp.Api.Models;
@@ -30,6 +31,7 @@ namespace ZwajApp.Api
         {   
             services.AddDbContext<DataContext>(x=>x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
    services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
+   services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
    services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
             .AddJsonOptions(option=>{
              option.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
@@ -57,8 +59,9 @@ namespace ZwajApp.Api
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env,TrialData trialData)
-        {  
-            if (env.IsDevelopment())
+        {
+   StripeConfiguration.SetApiKey(Configuration.GetSection("Stripe:SecretKey").Value);
+   if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }

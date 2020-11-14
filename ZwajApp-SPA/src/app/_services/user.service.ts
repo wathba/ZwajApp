@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environment';
 import { Message } from '../_models/message';
 import { PaginationResult } from '../_models/Pagination';
 import { User } from '../_models/user';
-import { AuthService } from './Auth.service';
+
 
 
 @Injectable({
@@ -15,7 +15,7 @@ import { AuthService } from './Auth.service';
 export class UserService {
   baseUrl = environment.apiUrl+'user/';
 
-  constructor(private http: HttpClient,private authserive: AuthService) { }
+  constructor(private http: HttpClient) { }
   getUsers(page?,itemPerPage?,userParams?,likeParam?): Observable<PaginationResult<User[]>>{
     const paginationResult: PaginationResult<User[]> = new PaginationResult<User[]>();
     let params = new HttpParams();
@@ -93,5 +93,11 @@ export class UserService {
   }
   deleteMessage(id: number, userId: number) {
     return this.http.post(this.baseUrl+userId+'/messages/'+id,{})
+  }
+  charge(userId: number, stripeToken: string) {
+    return this.http.post(this.baseUrl+userId+'/charge/'+stripeToken,{})
+  }
+  getPaymentForUser(userId) {
+    return this.http.get(this.baseUrl+userId+'/charge')
   }
 }
