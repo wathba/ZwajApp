@@ -6,7 +6,7 @@ namespace ZwajApp.Api.DTOS
     public class UserForRegisterDTO
     {
         [Required]
-        public string Name { get; set; }
+        public string UserName { get; set; }
         [StringLength(8,MinimumLength=4,ErrorMessage="this account has been registerd")]
          [Required]
          public string Password{ get; set; }

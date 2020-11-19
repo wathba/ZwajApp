@@ -70,4 +70,13 @@ export class NavComponent implements OnInit {
       }
     )
   }
+  adminToggle():Boolean {
+    
+    const userRoles = this.authservice.decodedToken.role as string[]
+    if (userRoles.includes('Admin', 0) || userRoles.includes('Moderator',1)) 
+     return true
+    
+    
+    
+  }
 }

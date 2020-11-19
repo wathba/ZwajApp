@@ -13,7 +13,7 @@ using ZwajApp.Api.Models;
 namespace ZwajApp.Api.Controllers
 {
  [ServiceFilter(typeof(LogUserActivity))]
- [Authorize]
+ 
  [Route("api/user/{userId}/[controller]")]
  [ApiController]
  public class MessagesController : ControllerBase

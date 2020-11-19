@@ -15,6 +15,9 @@ font-family:ToyorAljanah;font-size:2.25rem;font-weight:bolder" class="navbar-bra
         <li class="nav-item " routerLinkActive="active">
             <a class="nav-link  notification" [routerLink]="['/messages']">Chating <span *ngIf="count!=='0'" class="badge badge-warning">{{count}}</span></a>
         </li>
+        <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" [routerLink]="['/admin']">AdminPannel</a>
+        </li>
     </ul>
     <div dropdown *ngIf="loggedin()" class="dropdown ">
 

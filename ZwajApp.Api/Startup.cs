@@ -1,11 +1,14 @@
 ﻿using System.Text;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +16,7 @@ using Microsoft.IdentityModel.Tokens;
 using Stripe;
 using ZwajApp.Api.Data;
 using ZwajApp.Api.Helper;
+using ZwajApp.Api.Model;
 using ZwajApp.Api.Models;
 
 namespace ZwajApp.Api
@@ -30,20 +34,18 @@ namespace ZwajApp.Api
         public void ConfigureServices(IServiceCollection services)
         {   
             services.AddDbContext<DataContext>(x=>x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
-   services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
-   services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
-   services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-            .AddJsonOptions(option=>{
-             option.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-            });
-            services.AddCors();
-   services.AddSignalR();
-   services.AddAutoMapper();
-   services.AddTransient<TrialData>();
-            services.AddScoped<IAuthRepository, AuthRepository>();
-   services.AddScoped<IZwajRepository, ZwajRepository>();
-   services.AddScoped<LogUserActivity>();
-   services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+   IdentityBuilder builder = services.AddIdentityCore<User>(option => {
+    option.Password.RequireDigit = false;
+    option.Password.RequiredLength = 4;
+    option.Password.RequireUppercase = false;
+    option.Password.RequireNonAlphanumeric = false;
+   });
+   builder = new IdentityBuilder(builder.UserType,typeof(Role),builder.Services);
+   builder.AddEntityFrameworkStores<DataContext>();
+   builder.AddRoleValidator<RoleValidator<Role>>();
+   builder.AddRoleManager<RoleManager<Role>>();
+   builder.AddSignInManager<SignInManager<User>>();
+     services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
    .AddJwtBearer(Options =>
    {Options.TokenValidationParameters = new TokenValidationParameters
    {
@@ -55,10 +57,38 @@ namespace ZwajApp.Api
    };
 
    });
+   services.AddAuthorization(option=>{
+    option.AddPolicy("RequireAdimRole", policy => policy.RequireRole("Admin"));
+    option.AddPolicy("ModeratePhotoRole", policy => policy.RequireRole("Admin","Moderator"));
+    option.AddPolicy("VipRole", policy => policy.RequireRole("VIP"));
+   });
+   services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
+   services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
+   services.AddMvc(option=>{
+    var policy = new AuthorizationPolicyBuilder()
+    .RequireAuthenticatedUser()
+        .Build();
+    option.Filters.Add(new AuthorizeFilter(policy));
+
+   }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+            .AddJsonOptions(option=>{
+             option.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
+            services.AddCors();
+   services.AddSignalR();
+     services.AddAutoMapper();
+//    Mapper.Reset();
+
+   services.AddTransient<TrialData>();
+            services.AddScoped<IAuthRepository, AuthRepository>();
+   services.AddScoped<IZwajRepository, ZwajRepository>();
+   services.AddScoped<LogUserActivity>();
+ 
   }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env,TrialData trialData)
+  // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+  [System.Obsolete]
+  public void Configure(IApplicationBuilder app, IHostingEnvironment env,TrialData trialData)
         {
    StripeConfiguration.SetApiKey(Configuration.GetSection("Stripe:SecretKey").Value);
    if (env.IsDevelopment())

@@ -1,0 +1,15 @@
+<div class="modal-header ajs-header">
+    <h4 class="modal-title page-header ">Change Roles for {{user.userName}}</h4>
+</div>
+<div class="modal-body">
+    <form #rolesForm="ngForm" id="rolesForm">
+        <div class="form-check" *ngFor="let role of roles">
+            <input class="form-check-input mr-2" type="checkbox" value="role.value" [checked]="role.checked" [disabled]="role.value==='Admin'&& user.userName==='Admin'" (change)="role.checked = !role.checked">
+            <label class="ml-4 ajs-content">{{role.name}}</label>
+        </div>
+    </form>
+</div>
+<div class="modal-footer text-center">
+    <button type="button" class="btn ajs-button ajs-header ml-5 " form="rolesForm">Submit</button>
+    <button type="button" class="btn ajs-button ajs-header mr-5 " (click)="bsModalRef.hide()">Close</button>
+</div>

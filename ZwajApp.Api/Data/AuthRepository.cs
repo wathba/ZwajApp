@@ -20,8 +20,7 @@ namespace ZwajApp.Api.Data
   {
    byte[] passwordHash, passwordSolt;
    CreatePasswordHash(password, out passwordHash, out passwordSolt);
-   user.PasswordHash = passwordHash;
-   user.PasswordSalt = passwordSolt;
+   
    await _context.Users.AddAsync(user);
    await _context.SaveChangesAsync();
    return user;
@@ -35,10 +34,9 @@ namespace ZwajApp.Api.Data
    }
   }
 
-  public async Task<User> Login(string username, string password)
+  public async Task<User> Login(string username, string  password)
   {
-   var user = await _context.Users.Include(p=>p.Photos).FirstOrDefaultAsync(x=>x.Name==username);
-   if(user == null || !VerifyPasswordHash(password, user.PasswordSalt, user.PasswordHash)) {return null;}
+   var user = await _context.Users.Include(p=>p.Photos).FirstOrDefaultAsync(x=>x.UserName==username);
    return user;
   }
 
@@ -59,7 +57,7 @@ namespace ZwajApp.Api.Data
 
   public async Task<bool> UserExists(string username)
   {
-   if (await _context.Users.AnyAsync(x=>x.Name==username)) return true;
+   if (await _context.Users.AnyAsync(x=>x.UserName==username)) return true;
    return false;
   }
  }

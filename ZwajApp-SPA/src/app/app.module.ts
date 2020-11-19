@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { BsDropdownModule, ButtonsModule, PaginationModule, TabsetComponent, TabsModule } from 'ngx-bootstrap';
+import { BsDropdownModule, ButtonsModule, ModalModule, PaginationModule, TabsetComponent, TabsModule } from 'ngx-bootstrap';
 import { JwtModule } from '@auth0/angular-jwt';
 import { FileUploadModule } from 'ng2-file-upload';
 
@@ -34,6 +34,13 @@ import { MemberMessagesComponent } from './members/member-messages/member-messag
 import { PaymentsComponent } from './payments/payments.component';
 import { MessagesGuard } from './guards/messages.guard';
 import { ChargeGuard } from './guards/charge.guard';
+import { AdminPanelComponent } from './Admin/admin-panel/admin-panel.component';
+import { HasRoleDirective } from './_Directives/has-role.directive';
+import { UserManagementComponent } from './Admin/user-management/user-management.component';
+import { PhotoManagementComponent } from './Admin/photo-management/photo-management.component';
+import { AdminService } from './_services/admin.service';
+import { RolesModalsComponent } from './Admin/roles-modals/roles-modals.component';
+
 
 
 
@@ -59,6 +66,11 @@ export function tokenGetter() {
     PhotoEditComponent,
     MemberMessagesComponent,
     PaymentsComponent,
+    AdminPanelComponent,
+    HasRoleDirective,
+    UserManagementComponent,
+    PhotoManagementComponent,
+    RolesModalsComponent,
      
     
    ],
@@ -74,6 +86,7 @@ export function tokenGetter() {
     RouterModule.forRoot(appRoutes),
     TabsModule.forRoot(),
     HttpClientModule,
+    ModalModule.forRoot(),
      JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
@@ -83,7 +96,8 @@ export function tokenGetter() {
     }),
      
   ],
-  providers: [AuthService,ErrorInterceptorProvider,AuthGuard ,MessagesGuard,ChargeGuard,UserService, MemberDetailsResolver,MemberListResolver,MemberEditResolver,ListResolver,MessageResolver],
+  entryComponents:[RolesModalsComponent],
+  providers: [AuthService,ErrorInterceptorProvider,AuthGuard ,MessagesGuard,ChargeGuard,UserService,AdminService ,MemberDetailsResolver,MemberListResolver,MemberEditResolver,ListResolver,MessageResolver],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

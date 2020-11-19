@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 
 namespace ZwajApp.Api.Models
 {
-    public class User
+    public class User:IdentityUser<int>
     {
-       public int Id { get; set; }
-       public string Name { get; set; }
-       public byte[] PasswordHash{ get; set; }
-       public byte[] PasswordSalt{ get; set; }
+     
+     
        public DateTime DateOfBirth { get; set; }
        public string Gender { get; set; }
        public string KownAs{ get; set; }
@@ -24,5 +23,6 @@ namespace ZwajApp.Api.Models
        public ICollection<Like> Likees{ get; set; }
        public ICollection<Message> MessagesSent{ get; set; }
        public ICollection<Message> MessagesRecieved{ get; set; }
+       public ICollection<UserRole> UserRoles { get; set; }
     }
 }

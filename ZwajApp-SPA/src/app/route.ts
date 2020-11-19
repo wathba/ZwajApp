@@ -1,4 +1,5 @@
 import {Routes} from '@angular/router'
+import { AdminPanelComponent } from './Admin/admin-panel/admin-panel.component';
 import { AuthGuard } from './guards/auth.guard';
 import { ChargeGuard } from './guards/charge.guard';
 import { MessagesGuard } from './guards/messages.guard';
@@ -40,5 +41,6 @@ export const appRoutes:Routes=[
   }},
  {path:'messages',component:MessagesComponent,canActivate:[MessagesGuard],resolve:{messages:MessageResolver}},
  { path: 'charge', component: PaymentsComponent ,canActivate:[ChargeGuard]},
+ { path: 'admin', component: AdminPanelComponent, data:{role:["Admin","Moderator"]}},
  {path:'**',redirectTo:'home',pathMatch:'full'}
 ]
