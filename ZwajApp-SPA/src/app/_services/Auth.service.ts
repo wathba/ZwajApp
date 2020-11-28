@@ -14,13 +14,28 @@ export class AuthService {
   decodedToken: any;
   baseUrl = 'http://localhost:5000/api/auth/';
   currentUser: User;
+   paid: boolean = false;
+  siteLang: string = 'en'
+  dir:string='ltr'
   unreadCount = new BehaviorSubject<string>('');
   lastUnreadCount = this.unreadCount.asObservable();
-  paid: boolean = false;
+  language = new BehaviorSubject<string>('en')
+  lang = this.language.asObservable();
+ 
    hubconnection:HubConnection = new HubConnectionBuilder().withUrl('http:localhost:5000/chat').build();
-  constructor(private http: HttpClient) { }
-  login(modle:any) {
-    return this.http.post(this.baseUrl +'login', modle).pipe(
+  constructor(private http: HttpClient) { 
+    this.lang.subscribe(lang => {
+      if (lang == 'en') {
+        this.dir = 'ltr'
+        this.siteLang='en'
+      } else {
+          this.dir = 'rtl'
+        this.siteLang='ar'
+      }
+    })
+  }
+  login(model:any) {
+    return this.http.post(this.baseUrl +'login', model).pipe(
       map((response:any)=>{
         const user = response;
         if (user) {

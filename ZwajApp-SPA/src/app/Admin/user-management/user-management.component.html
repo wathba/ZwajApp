@@ -11,6 +11,7 @@
             <td>{{user.userName}}</td>
             <td><span class="role-badge" *ngFor="let role of user.roles">{{role}}</span></td>
             <td><button (click)="editRolesModal(user);" class="btn btn-info small">Edit Roles</button></td>
+            <td><button (click)="userId=user.id;getUserReport();" class="btn btn-info small">Print Report</button></td>
         </tr>
     </table>
 </div>

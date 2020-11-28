@@ -1,0 +1,29 @@
+{
+    "deploy": {
+      "packages": [
+        {
+          "name": "Version 1.0",
+          "description": "Zwaj App Version 1.0",
+          "files": ["ZwajApp.API/bin/Debug/netcoreapp2.1/publish/**"]
+        }
+      ],
+      "targets": [
+        {
+          "type": "sftp",
+          "name": "Linux",
+          "description": "Remote Linux Server",
+          "dir": "/var/zwajapp",
+          "mappings": [
+            {
+                "source": "/ZwajApp.API/bin/Debug/netcoreapp2.1/publish",
+                "target": "/"
+            }
+        ],
+          "host": "142.93.5.254",
+          "port": 22,
+          "user": "root", "password": "pass12Word",
+          "checkBeforeDeploy": true
+        }
+      ]
+    }
+  }

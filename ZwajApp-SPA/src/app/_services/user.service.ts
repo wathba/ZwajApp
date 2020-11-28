@@ -1,7 +1,7 @@
 import { HttpClient, HttpHandler, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/Operators';
+import { map, tap } from 'rxjs/Operators';
 import { environment } from 'src/environments/environment';
 import { Message } from '../_models/message';
 import { PaginationResult } from '../_models/Pagination';
@@ -99,5 +99,17 @@ export class UserService {
   }
   getPaymentForUser(userId) {
     return this.http.get(this.baseUrl+userId+'/charge')
+  }
+  GetReportForUser(id:number):any  {
+    return this.http.get(this.baseUrl + 'UserReport/'+id,{ headers: 
+      new HttpHeaders({'Content-Type': 'application/pdf'}),responseType:'blob'}).pipe (
+    tap (
+        () => console.log('file recieved'),
+        error => console.log(error)
+     )
+   );
+  }
+  getAllUsersExcepAdmin() {
+    return this.http.get(this.baseUrl+'GetAllUsersExceptAdmin');
   }
 }

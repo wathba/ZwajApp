@@ -1,41 +1,56 @@
-<nav class=" navbar navbar-expand-md navbar-dark bg-dark">
+<nav [dir]="authservice.dir" class=" navbar navbar-expand-md navbar-dark bg-dark">
     <a style="margin-top:-10px;color:pink;
-font-family:ToyorAljanah;font-size:2.25rem;font-weight:bolder" class="navbar-brand" [routerLink]="['']"><i class="fa fa-heart" aria-hidden="true"></i>Zwaj<i class="fa fa-heart" aria-hidden="true"></i></a>
-
+font-family:ToyorAljanah;font-size:2.25rem;font-weight:bolder" [hidden]="authservice.siteLang=='ar'" class="navbar-brand" [routerLink]="['']"><i class="fa fa-heart" aria-hidden="true"></i>Dating<i class="fa fa-heart" aria-hidden="true"></i></a>
+    <a style="margin-top:-10px;color:pink;
+font-family:ToyorAljanah;font-size:2.25rem;font-weight:bolder" [hidden]="authservice.siteLang=='en'" class="navbar-brand" [routerLink]="['']"><i class="fa fa-heart" aria-hidden="true"></i>Zwaj<i class="fa fa-heart" aria-hidden="true"></i></a>
     <ul *ngIf="loggedin()" style="letter-spacing:1px;font-weight:bold;font-family:'JF Flat';font-size:1.2rem " class="navbar-nav mr-auto ">
         <li class="nav-item " routerLinkActive="active">
-            <a class="nav-link " [routerLink]="['home']">Home</a>
+            <a lang class="nav-link " [routerLink]="['home']">Home</a>
         </li>
         <li class="nav-item " routerLinkActive="active">
-            <a class="nav-link" [routerLink]="['/members']">Members</a>
+            <a lang class="nav-link" [routerLink]="['/members']">Search</a>
         </li>
         <li class="nav-item" routerLinkActive="active">
-            <a class="nav-link" [routerLink]="['/lists']">Comunicate</a>
+            <a lang class="nav-link" [routerLink]="['/lists']">Messages</a>
         </li>
         <li class="nav-item " routerLinkActive="active">
-            <a class="nav-link  notification" [routerLink]="['/messages']">Chating <span *ngIf="count!=='0'" class="badge badge-warning">{{count}}</span></a>
+            <a lang class="nav-link  notification" [routerLink]="['/messages']">Chating <span *ngIf="count!=='0'" class="badge badge-warning">{{count}}</span></a>
         </li>
         <li class="nav-item" routerLinkActive="active">
-            <a class="nav-link" [routerLink]="['/admin']">AdminPannel</a>
+            <a lang class="nav-link" [routerLink]="['/admin']">AdminPannel</a>
         </li>
     </ul>
-    <div dropdown *ngIf="loggedin()" class="dropdown ">
+    <div dropdown *ngIf="loggedin()" class="dropdown ml-auto" [hidden]="authservice.siteLang=='ar'">
 
         <a dropdownToggle style="font-weight:bold;font-family: 'JF Flat';font-size:1.0rem " class="dropdown-toggle text-light nav-link ">
             Welcome {{authservice.decodedToken.unique_name| titlecase}}
             </a>
 
         <div *dropdownMenu class="dropdown-menu mt-3 ">
-            <a class="dropdown-item " [routerLink]="['/members/edit']">Profile</a><i class="fa fa-user-o "></i>
+            <a lang class="dropdown-item " [routerLink]="['/members/edit']">Profile</a><i class="fa fa-user-o "></i>
             <div class="dropdown-divider "></div>
             <a (click)="logout() " class="dropdown-item ">Sign Out</a><i class="fa fa-sign-out "></i>
+        </div>
+    </div>
+    <div dropdown *ngIf="loggedin()" class="dropdown ml-auto" [hidden]="authservice.siteLang=='en'">
+
+        <a dropdownToggle style="font-weight:bold;font-family: 'JF Flat';font-size:1.0rem " class="dropdown-toggle text-light nav-link ">
+            Marhaba {{authservice.decodedToken.unique_name| titlecase}}
+            </a>
+
+        <div *dropdownMenu class="dropdown-menu mt-3 ">
+            <a lang class="dropdown-item " [routerLink]="['/members/edit']">malef shagshi</a><i class="fa fa-user-o "></i>
+            <div class="dropdown-divider "></div>
+            <a (click)="logout() " class="dropdown-item ">khorog</a><i class="fa fa-sign-out "></i>
         </div>
     </div>
     <span><img *ngIf="loggedin()"src="{{authservice.currentUser.photoUrl || 'assets/sample.jpg'}}" alt="" class=""></span>
     <form *ngIf="!loggedin()" (ngSubmit)="login()" #loginForm="ngForm" class="form-inline my-2 my-lg-0 ">
         <input #username="ngModel" name="username " required class="form-control mr-sm-2 " type="text " [(ngModel)]="model.username" placeholder="User Name ">
         <input #password="ngModel" name="password " required class="form-control mr-sm-2 " type="password " [(ngModel)]="model.password " placeholder="Password ">
-        <button style="font-weight:bold;font-family: 'JF Flat';font-size:1.0rem " class="btn btn-secondary my-2 my-sm-0 " type="submit ">Sign in
+        <button style="font-weight:bold;font-family: 'JF Flat';font-size:1.0rem " class="btn btn-secondary my-2 my-sm-0 " type="submit">Sign in
       </button>
     </form>
+    <button [hidden]="authservice.siteLang=='ar'" class="btn btn-warning ml-auto" (click)="ar();">Arabic</button>
+    <button [hidden]="authservice.siteLang=='en'" class="btn btn-warning mr-auto" (click)="en();">Englidh</button>
 </nav>

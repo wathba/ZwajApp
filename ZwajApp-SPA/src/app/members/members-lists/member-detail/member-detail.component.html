@@ -2,10 +2,10 @@
     <div class="row">
         <div class="col-sm-4 mt-3">
             <div class="card">
-                <img src="{{user.photoUrl||'assets/sample.jpg'}}" alt="{{user.name}}" class="card-img-top img-thumbnail">
+                <img src="{{user.photoUrl||'assets/sample.jpg'}}" alt="{{user.userName}}" class="card-img-top img-thumbnail">
                 <div class="card-body">
                     <strong>Name:</strong>
-                    <p>{{user.name}}</p>
+                    <p>{{user.userName}}</p>
                     <strong>Age:</strong>
                     <p>{{user.age}}</p>
                     <strong>Country:</strong>
@@ -30,7 +30,7 @@
         <div class="col-sm-8 mt-3">
             <div class="tab-panel">
                 <tabset class="member-tabset" #memberTabs>
-                    <tab heading="I am {{user.name}}">
+                    <tab heading="I am {{user.userName}}">
                         <h4>Introduction</h4>
                         <p #Intro>{{user.introduction | slice:0:100}}</p>
                         <button [hidden]='!showIntro' class="btn btn-primary" (click)="Intro.innerText=user.introduction;showIntro=false">Read More....</button>

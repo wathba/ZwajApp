@@ -40,6 +40,9 @@ import { UserManagementComponent } from './Admin/user-management/user-management
 import { PhotoManagementComponent } from './Admin/photo-management/photo-management.component';
 import { AdminService } from './_services/admin.service';
 import { RolesModalsComponent } from './Admin/roles-modals/roles-modals.component';
+import { LangDirective } from './_Directives/lang.directive';
+import { AllMemberReportComponent } from './report/all-member-report/all-member-report.component';
+
 
 
 
@@ -71,6 +74,8 @@ export function tokenGetter() {
     UserManagementComponent,
     PhotoManagementComponent,
     RolesModalsComponent,
+    LangDirective,
+    AllMemberReportComponent,
      
     
    ],

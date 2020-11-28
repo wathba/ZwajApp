@@ -13,7 +13,7 @@ import { UserService } from '../_services/user.service';
 export class NavComponent implements OnInit {
  model:any = {};
   count:string
-  constructor(private authservice:AuthService,private userService:UserService, private route:Router) { }
+  constructor(public authservice:AuthService,private userService:UserService, private route:Router) { }
 
   ngOnInit() {
     if (this.loggedin) {
@@ -43,7 +43,7 @@ export class NavComponent implements OnInit {
       error => { console.log('your access denied') },
       ()=>{this.route.navigate(['/members'])}
     )
-    this.getPaymentForUser();
+   
   }
   loggedin() {
     
@@ -75,8 +75,11 @@ export class NavComponent implements OnInit {
     const userRoles = this.authservice.decodedToken.role as string[]
     if (userRoles.includes('Admin', 0) || userRoles.includes('Moderator',1)) 
      return true
-    
-    
-    
+  }
+  ar() {
+    this.authservice.language.next('ar')
+  }
+  en() {
+    this.authservice.language.next('en')
   }
 }

@@ -11,11 +11,14 @@ using ZwajApp.Api.Helper;
 using ZwajApp.Api.Models;
 using Microsoft.Extensions.Options;
 using Stripe;
+using DinkToPdf;
+using System.IO;
+using DinkToPdf.Contracts;
 
 namespace ZwajApp.Api.Controllers
 {
  [ServiceFilter(typeof(LogUserActivity))]
- 
+
  [Route("api/[controller]")]
  [ApiController]
  public class UserController : ControllerBase
@@ -23,8 +26,10 @@ namespace ZwajApp.Api.Controllers
   private readonly IZwajRepository _repo;
   private readonly IMapper _mapper;
   private readonly IOptions<StripeSettings> _stripeSettings;
-  public UserController(IZwajRepository repo, IMapper mapper, IOptions<StripeSettings> stripeSettings)
+  private readonly IConverter _converter;
+  public UserController(IZwajRepository repo, IMapper mapper, IOptions<StripeSettings> stripeSettings, IConverter converter)
   {
+   _converter = converter;
    _stripeSettings = stripeSettings;
    _mapper = mapper;
    _repo = repo;
@@ -33,7 +38,7 @@ namespace ZwajApp.Api.Controllers
   public async Task<IActionResult> GetUsers([FromQuery] UserParams userParams)
   {
    var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-   
+
    var userFromRepo = await _repo.GetUser(currentUserId);
    userParams.UserId = currentUserId;
    if (string.IsNullOrEmpty(userParams.Gender))
@@ -85,46 +90,92 @@ namespace ZwajApp.Api.Controllers
 
   }
   [HttpPost("{userId}/charge/{stripeToken}")]
-  public async Task<IActionResult> Charge(int userId, string stripeToken){
- if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+  public async Task<IActionResult> Charge(int userId, string stripeToken)
+  {
+   if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
     return Unauthorized();
-     var customers = new CustomerService();
+   var customers = new CustomerService();
    var charges = new ChargeService();
-   var customer = customers.Create(new CustomerCreateOptions {
-     Source= stripeToken
+   var customer = customers.Create(new CustomerCreateOptions
+   {
+    Source = stripeToken
    });
-   var charge = charges.Create(new ChargeCreateOptions { 
-     Amount=5000,
-     Description="App SubsCription",
-     Currency="usd",
-     Customer=customer.Id
+   var charge = charges.Create(new ChargeCreateOptions
+   {
+    Amount = 5000,
+    Description = "App SubsCription",
+    Currency = "usd",
+    Customer = customer.Id
    });
    var payment = new Payment
    {
-     PaymentDate=DateTime.Now,
-     Amount=charge.Amount/100,
-     UserId=int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value),
-     ReceiptUrl=charge.ReceiptUrl,
-     Description=charge.Description,
-     Currency=charge.Currency,
-     IsPaid=charge.Paid
+    PaymentDate = DateTime.Now,
+    Amount = charge.Amount / 100,
+    UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value),
+    ReceiptUrl = charge.ReceiptUrl,
+    Description = charge.Description,
+    Currency = charge.Currency,
+    IsPaid = charge.Paid
 
    };
    _repo.Add<Payment>(payment);
    await _repo.SaveAll();
-   {return  Ok(new { IsPaid = charge.Paid });}
-  
-   
+   { return Ok(new { IsPaid = charge.Paid }); }
+
+
 
 
   }
   [HttpGet("userId/charge")]
-  public async Task<IActionResult> GetPaymentsForUser(int userId){
-    if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+  public async Task<IActionResult> GetPaymentsForUser(int userId)
+  {
+   if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
     return Unauthorized();
    var payment = await _repo.GetPaymentForUser(userId);
    return Ok(payment);
 
   }
+
+  [Authorize(Policy = "RequireAdimRole")]
+  [HttpGet("UserReport/{userId}")]
+  public IActionResult CreatePdfForUser(int userId)
+  {
+   var templateGenerator = new TemplateGenerator(_repo, _mapper);
+   var globalSettings = new GlobalSettings
+   {
+    ColorMode = ColorMode.Color,
+    Orientation = Orientation.Portrait,
+    PaperSize = PaperKind.A4,
+    Margins = new MarginSettings { Top = 15, Bottom = 20 },
+    DocumentTitle = "Member Card"
+
+   };
+
+   var objectSettings = new ObjectSettings
+   {
+    PagesCount = true,
+    HtmlContent = templateGenerator.GetHTMLStringForUser(userId),
+    WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = Path.Combine(Directory.GetCurrentDirectory(), "assets", "styles.css") },
+    HeaderSettings = { FontName = "Impact", FontSize = 12, Spacing = 5, Line = false },
+    FooterSettings = { FontName = "Geneva", FontSize = 15, Spacing = 7, Line = true, Center = "ZwajApp By Eng Muhammad  Jabeer", Right = "[page]" }
+   };
+
+   var pdf = new HtmlToPdfDocument()
+   {
+    GlobalSettings = globalSettings,
+    Objects = { objectSettings }
+   };
+
+   var file = _converter.Convert(pdf);
+   return File(file, "application/pdf");
+  }
+  [Authorize(Policy = "RequireAdimRole")]
+  [HttpGet("GetAllUsersExceptAdmin")]
+  public async Task<IActionResult> GetAllUsersExceptAdmin(){
+   var users = await _repo.GetAllUsersEceptAdmin();
+   var usersToReturn = _mapper.Map<IEnumerable<UserForListDto>>(users);
+   return Ok(usersToReturn);
+  }
+
  }
 }

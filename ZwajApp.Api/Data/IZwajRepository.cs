@@ -20,5 +20,7 @@ namespace ZwajApp.Api.Data
   Task<IEnumerable<Message>> GetConversation(int userId, int recipientId);
   Task<int> GetUnreadMessagesForUser(int userId);
   Task<Payment> GetPaymentForUser(int userId);
+  Task<ICollection<User>> GetLikersOrLikees(int userId, string type);
+  Task<ICollection<User>> GetAllUsersEceptAdmin();
  }
 }
